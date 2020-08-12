@@ -100,11 +100,12 @@ class Rajce:
 
     def getConfig(self, url, bruteForce=False) -> dict:
         config = {}
+        query = re.sub('(login=.+?)&(password)(=.+?)', '\g<1>&code\g<3>', urllib.parse.urlsplit(url).query)
 
         try:
             data = dict(
                 urllib.parse.parse_qsl(
-                    urllib.parse.urlsplit(url).query
+                    query
                 )
             )
             data = urllib.parse.urlencode(data).encode()
@@ -191,7 +192,7 @@ class Rajce:
         file = self.path.joinpath(
             media['albumUserName'],
             media['albumServerDir'].strip('.'),
-            media['info'].split(' | ')[0]
+            media['fileName'] + ('.mp4' if media['isVideo'] else '.jpg')
         )
 
         try:
@@ -211,13 +212,12 @@ class Rajce:
     def downloadAlbum(self, url):
         config = self.getConfig(url, self.useBruteForce)
         links = self.getMediaList(config)
-
-        user, album = config['albumUserName'], config['albumServerDir']
-        self.logger.info(f'Checking {user}\'s album "{album}"')
-
         if len(links) == 0:
             self.logger.info(f'No photos found')
             return
+
+        user, album = config['albumUserName'], config['albumServerDir']
+        self.logger.info(f'Checking {user}\'s album "{album}"')
 
         fileList = [x for x in links if x['photoID'] not in self.history] if self.useHistory else links
 
