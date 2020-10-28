@@ -109,7 +109,7 @@ class Rajce:
                 )
             )
             data = urllib.parse.urlencode(data).encode()
-            request = urllib.request.Request(url, data=data)
+            request = urllib.request.Request(url.rsplit('?')[0], data=data)
             response = urllib.request.urlopen(request)
         except urllib.error.URLError as e:
             self.logger.error(f'Error : "{e.reason}" for url : {url}')
