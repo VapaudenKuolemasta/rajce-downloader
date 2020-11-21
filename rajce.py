@@ -8,7 +8,7 @@ import urllib.error
 import urllib.parse
 from pathlib import Path
 from multiprocessing.dummy import Pool
-from time import gmtime, strftime
+from time import gmtime, strftime, sleep
 
 
 class Rajce:
@@ -279,12 +279,17 @@ class Rajce:
         for url in urls:
             config = self.getConfig(url, self.useBruteForce)
             links = self.getMediaList(config)
+            if len(links) == 0:
+                self.logger.info(f'No photos found in "{url}"')
+                continue
 
             user, album = config['albumUserName'], config['albumServerDir']
             self.logger.info(f'Analyze {user}\'s album "{album}"')
 
             albums += [config]
             media += links
+
+            sleep(3)
 
         albums = [x for x in albums if 'albumRating' in x]
 
