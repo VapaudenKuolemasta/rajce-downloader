@@ -1,9 +1,9 @@
+<a href="https://www.buymeacoffee.com/michaeltherat"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a rat&emoji=🐀&slug=michaeltherat&button_colour=FFDD00&font_colour=000000&font_family=Comic&outline_colour=000000&coffee_colour=ffffff"></a>
 # Rajce Downloader and Analyzer
 Command-line program to download photos and videos from rajce.idnes.cz. 
 ```
 rajce.py [OPTIONS] -u URL [URL ...]
 ```
-
 ## Options
     -h, --help                                        Show this help message and exit
     -u, --url URL [URL ...]                           URLs to download or to analyze
